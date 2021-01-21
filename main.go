@@ -36,7 +36,7 @@ func main() {
 		panic(err)
 	}
 
-	err = attachStdin(context.Background(), cli, os.Args[1], os.Stdin)
+	err = attachStdin(context.Background(), cli, flag.Arg(0), os.Stdin)
 	if err != nil {
 		panic(err)
 	}
@@ -58,7 +58,7 @@ func lock(f string, retryCount int) (r fileutil.Releaser, err error) {
 }
 
 func attachStdin(ctx context.Context, cli *client.Client, containerName string, r io.Reader) error {
-	c, err := cli.ContainerAttach(context.Background(), os.Args[1], types.ContainerAttachOptions{Stdin: true, Stream: true})
+	c, err := cli.ContainerAttach(context.Background(), containerName, types.ContainerAttachOptions{Stdin: true, Stream: true})
 	if err != nil {
 		return err
 	}
